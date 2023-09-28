@@ -2,7 +2,6 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { createUser, findUserByEmail, findUsers } from './user.service';
 import { CreateUserInput, LoginInput } from './user.schema';
 import { verifyPassword } from '../../utils/hash';
-import { server } from '../../app';
 
 export async function registerUserHandler(
   request: FastifyRequest<{
@@ -53,7 +52,7 @@ export async function loginHandler(
   // Generate access token by passing id, email, name as payload
   const { password, salt, ...rest } = user;
 
-  return { accessToken: server.jwt.sign(rest) };
+  return { accessToken: request.jwt.sign(rest) };
 }
 
 export async function getUsersHandler() {
